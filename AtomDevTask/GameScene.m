@@ -35,7 +35,7 @@
     slider.maximumValue = 100.0;
     slider.continuous = YES;
     // AMP from 10 to 120 is good
-    slider.value = 60.0;
+    slider.value = 90.0;
     self.gAmp = slider.value;
    
     [self.view addSubview:slider];
