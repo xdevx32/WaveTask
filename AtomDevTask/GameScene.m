@@ -10,16 +10,31 @@
 #import "GameViewController.h"
 
 @implementation GameScene{
-    float x,y;
-    float frequency1;
+    float x,y,vectorY;
     UISlider *slider;
+    bool flag;
+    SKSpriteNode *circle;
 }
 
 -(void)didMoveToView:(SKView *)view {
         y = 200.0;
         x = -20.0;
-        frequency1 = 1000;
+    vectorY = -170.0;
     [self mySlider];
+     circle = [SKSpriteNode spriteNodeWithImageNamed:@"Circle"];
+    
+    circle.position = CGPointMake(240.0, 290.0);
+ 
+    [circle runAction:[SKAction moveBy:CGVectorMake(-25.0, vectorY) duration:5.0] completion:^{
+        
+         [circle runAction:[SKAction moveBy:CGVectorMake(-45.0, vectorY*-1) duration:8.0]];
+        
+        
+    }];
+    
+    [self addChild:circle];
+    
+    //[circle removeFromParent];
 }
 
 
@@ -35,9 +50,10 @@
     slider.maximumValue = 100.0;
     slider.continuous = YES;
     // AMP from 10 to 120 is good
+
     slider.value = 90.0;
+
     self.gAmp = slider.value;
-   
     [self.view addSubview:slider];
 }
 
@@ -74,7 +90,7 @@
 
     for (int i=1;i<numPoints;i++) {
        
-       CGFloat yC = slider.value * sin(M_PI*i/49);
+       CGFloat yC = slider.value * sin(M_PI*i/49.0);
         
         CGPathAddLineToPoint(path, nil, i*xIncr+offsetX, yC+offsetY);
         //CGPathAddLineToPoint(path,nil,i*xIncr+offsetX, -y+offsetY);
@@ -90,11 +106,10 @@
     self.scaleMode = SKSceneScaleModeResizeFill;
     // Create an SKShapeNode
     SKShapeNode *node = [SKShapeNode node];
-    
     node.position = CGPointMake(x, y);
     
     
-    node.path = [self sineWithAmplitude: self.gAmp frequency:frequency1 width:200.0 centered:YES andNumPoints:100];
+    node.path = [self sineWithAmplitude: 100.0 frequency:1000.0 width:200.0 centered:YES andNumPoints:100];
  
     
     node.strokeColor = [SKColor grayColor];
@@ -102,6 +117,7 @@
     [self addChild:node];
     
     x = x+195.1;
+    //x= x+194.5;
     
 }
 
